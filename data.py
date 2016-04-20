@@ -5,7 +5,7 @@ import subprocess
 
 import os
 import tensorflow as tf
-import progress
+from progressbar import ProgressBar
 from enum import Enum
 
 tf.app.flags.DEFINE_integer('num_examples', 200,
@@ -17,35 +17,28 @@ tf.app.flags.DEFINE_string('babi_directory', '../bAbI-tasks',
 
 FLAGS = tf.app.flags.FLAGS
 
-"""
-problem tasks:
-2, 3, 7, 11, 13, 14, 15, 16, 17, 18 : multiple sentences
-19: single letter answers
-20: weird answers
-ok tasks:
-1, 4, 5, 6, 8, 9, 10, 12
-"""
-
-tasks = [1, 4, 5, 6, 8, 9, 10, 12]
+TASKS = [1, 4, 5, 6, 9, 12]
 
 
 class Dataset(Enum):
-    train = .7
-    test = .2
     valid = .1
+    test = .2
+    train = .7
 
 
 def bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
-writers = {dataset:
-               tf.python_io.TFRecordWriter(
-                   os.path.join(FLAGS.directory, dataset.name + '.tfrecords')
-               ) for dataset in Dataset}
+instances = set()
+writers = {}
+for dataset in Dataset:
+    path = os.path.join(FLAGS.directory, dataset.name + '.tfrecords')
+    writers[dataset] = tf.python_io.TFRecordWriter(path)
 
-for _ in progress.Bar('Generating dataset', max=FLAGS.num_examples):
-    task = random.choice(tasks)
+num_duplicates = 0
+for _ in ProgressBar()(range(FLAGS.num_examples)):
+    task = random.choice(TASKS)
     babi_string, _ = subprocess.Popen(
         ["/Users/Ethan/torch/install/bin/babi-tasks",
          str(task), "--path-length=1", "--decoys=0"],
@@ -53,31 +46,38 @@ for _ in progress.Bar('Generating dataset', max=FLAGS.num_examples):
     babi_output = babi_string.split('\n')
     for line in babi_output:
         entities = line.split('\t')
-        if entities[0][-1] == '?':
-            question, answer, sentenceNum = entities
-            try:
-                sentence = babi_output[int(sentenceNum) - 1].split('\t')[0]
-            except ValueError:
-                print("task: ", task)
-            question, sentence = (x[2:] for x in (question, sentence))
-            break
+        try:
+            if entities[0][-1] == '?':
+                question, answer, sentenceNum = entities
+                i = int(sentenceNum)
+                sentence = babi_output[i - 1].split('\t')[0]
+                question, sentence = (x[2:] for x in (question, sentence))
+                break
+        except IndexError:
+            pass
 
     choice_threshold = random.random()
-    for dataset in Dataset:
-        if choice_threshold < dataset.value:
-            writer = writers[dataset]
+    for ds in Dataset:
+        if choice_threshold < ds.value:
+            dataset = ds
+            break
         else:
             choice_threshold -= dataset.value
 
-    q, a, l = map(bytes_feature, (question, answer, sentence))
-    example = tf.train.Example(
-        features=tf.train.Features(
-            feature={
-                'question': q,
-                'answer': a,
-                'label': l
-            }))
-    writer.write(example.SerializeToString())
-    # print('question:\t', question)
-    # print('answer:\t\t', answer)
-    # print('label:\t\t', sentence)
+    key = question + answer + sentence
+    if key not in instances:
+        instances.add(key)
+        writer = writers[dataset]
+        q, a, l = map(bytes_feature, (question, answer, sentence))
+        example = tf.train.Example(
+            features=tf.train.Features(
+                feature={
+                    'question': q,
+                    'answer': a,
+                    'label': l
+                }))
+        writer.write(example.SerializeToString())
+    else:
+        num_duplicates += 1
+
+print("number of duplicates: ", num_duplicates)
