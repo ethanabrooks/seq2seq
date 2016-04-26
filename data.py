@@ -38,7 +38,7 @@ try:
     writers = {}
 
     for dataset in Dataset:
-        path = os.path.join(FLAGS.directory, dataset.name + '.tfrecords')
+        path = os.path.join(FLAGS.directory, dataset.name + '.csv')
         # writers[dataset] = tf.python_io.TFRecordWriter(path)
         f = open(path, 'w')
         handles.append(f)
