@@ -36,6 +36,7 @@ import os
 import random
 import sys
 import time
+import csv
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -110,8 +111,8 @@ def read_data(source_path, max_size=None):
         reader = csv.reader(source)
 
         for question, answer, label in reader:
-            source_ids = [word2int(token.lower_) for token in tokenizer(question + answer)]
-            target_ids = [word2int(token.lower_) for token in tokenizer(label)]
+            source_ids = [word2int(token.lower_) for token in tokenizer(unicode(question + answer, 'utf8'))]
+            target_ids = [word2int(token.lower_) for token in tokenizer(unicode(label, 'utf8'))]
 
             for bucket_id, (source_size, target_size) in enumerate(_buckets):
                 if len(source_ids) < source_size and len(target_ids) < target_size:
