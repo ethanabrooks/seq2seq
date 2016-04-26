@@ -124,7 +124,9 @@ def read_data(source_path, max_size=None):
                     data_set[bucket_id].append([source_ids, target_ids])
                     break
 
-    pickle.dump(words, WORDS_FILE)
+    with open(WORDS_FILE, 'w') as handle:
+        pickle.dump(words, handle)
+
     return data_set
 
 """
@@ -264,7 +266,8 @@ def decode():
         sentence = sys.stdin.readline()
         while sentence:
 
-            words = pickle.load(WORDS_FILE)
+            with open(WORDS_FILE) as handle:
+                words = pickle.load(handle)
             # Get token-ids for the input sentence.
             # token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), en_vocab)
             token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), words)
