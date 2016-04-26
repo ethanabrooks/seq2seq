@@ -259,7 +259,7 @@ def decode():
 
         with open(WORDS_FILE) as handle:
             words = pickle.load(handle)
-            
+
         # en_vocab_path = os.path.join(FLAGS.data_dir,
         #                              "vocab%d.en" % FLAGS.en_vocab_size)
         # fr_vocab_path = os.path.join(FLAGS.data_dir,
@@ -292,7 +292,7 @@ def decode():
             if data_utils.EOS_ID in outputs:
                 outputs = outputs[:outputs.index(data_utils.EOS_ID)]
             # Print out French sentence corresponding to outputs.
-            print(" ".join([tf.compat.as_str(rev_fr_vocab[output]) for output in outputs]))
+            print(" ".join([tf.compat.as_str(words[output]) for output in outputs]))
             print("> ", end="")
             sys.stdout.flush()
             sentence = sys.stdin.readline()
