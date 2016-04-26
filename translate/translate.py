@@ -77,7 +77,8 @@ FLAGS = tf.app.flags.FLAGS
 # See seq2seq_model.Seq2SeqModel for details of how they work.
 _buckets = [(5, 10), (10, 15), (20, 25), (40, 50)]
 
-WORDS_FILE = 'words.pkl'
+VOCAB_FILE = 'vocab.pkl'
+REV_VOCAB_FILE = 'rev-vocab.pkl'
 
 
 def read_data(source_path, max_size=None):
@@ -101,14 +102,15 @@ def read_data(source_path, max_size=None):
 
     data_set = [[] for _ in _buckets]
 
-    words = {}
+    vocab, rev_vocab = {}, {}
 
     def word2int(word):
         try:
-            return words[word]
+            return vocab[word]
         except KeyError:
-            words[word] = len(words)
-            return words[word]
+            vocab[word] = len(vocab)
+            rev_vocab[vocab[word]] = word
+            return vocab[word]
 
     tokenizer = English(parser=False,
                         tagger=False,
@@ -127,8 +129,11 @@ def read_data(source_path, max_size=None):
                     data_set[bucket_id].append([source_ids, target_ids])
                     break
 
-    with open(WORDS_FILE, 'w') as handle:
-        pickle.dump(words, handle)
+    with open(VOCAB_FILE, 'w') as handle:
+        pickle.dump(vocab, handle)
+
+    with open(REV_VOCAB_FILE, 'w') as handle:
+        pickle.dump(rev_vocab, handle)
 
     return data_set
 
@@ -257,9 +262,12 @@ def decode():
 
         # Load vocabularies.
 
-        with open(WORDS_FILE) as handle:
-            words = pickle.load(handle)
+        with open(VOCAB_FILE) as handle:
+            vocab = pickle.load(handle)
 
+        with open(REV_VOCAB_FILE) as handle:
+            rev_vocab = pickle.load(handle)
+            
         # en_vocab_path = os.path.join(FLAGS.data_dir,
         #                              "vocab%d.en" % FLAGS.en_vocab_size)
         # fr_vocab_path = os.path.join(FLAGS.data_dir,
@@ -275,7 +283,7 @@ def decode():
 
             # Get token-ids for the input sentence.
             # token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), en_vocab)
-            token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), words)
+            token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), vocab)
 
             # Which bucket does it belong to?
             bucket_id = min([b for b in xrange(len(_buckets))
@@ -292,7 +300,7 @@ def decode():
             if data_utils.EOS_ID in outputs:
                 outputs = outputs[:outputs.index(data_utils.EOS_ID)]
             # Print out French sentence corresponding to outputs.
-            print(" ".join([tf.compat.as_str(words[output]) for output in outputs]))
+            print(" ".join([tf.compat.as_str(rev_vocab[output]) for output in outputs]))
             print("> ", end="")
             sys.stdout.flush()
             sentence = sys.stdin.readline()
