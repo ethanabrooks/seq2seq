@@ -45,7 +45,9 @@ try:
         writers[dataset] = csv.writer(f)
 
     num_duplicates = 0
-    for _ in ProgressBar()(range(FLAGS.num_examples)):
+    num_examples = 0
+    bar = ProgressBar(max_value=FLAGS.num_examples)
+    while num_examples < FLAGS.num_examples:
         task = random.choice(TASKS)
         babi_string, _ = subprocess.Popen(
             ["/Users/Ethan/torch/install/bin/babi-tasks",
@@ -76,15 +78,8 @@ try:
         if key not in instances:
             instances.add(key)
             writers[dataset].writerow((question, answer, sentence))
-            # q, a, l = map(bytes_feature, (question, answer, sentence))
-            # example = tf.train.Example(
-            #     features=tf.train.Features(
-            #         feature={
-            #             'question': q,
-            #             'answer': a,
-            #             'label': l
-            #         }))
-            # writer.write(example.SerializeToString())
+            num_examples += 1
+            bar.update(num_examples)
         else:
             num_duplicates += 1
 finally:
