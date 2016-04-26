@@ -33,6 +33,8 @@ from __future__ import print_function
 
 import csv
 import math
+import pickle
+
 import os
 import random
 import sys
@@ -120,27 +122,30 @@ def read_data(source_path, max_size=None):
                     data_set[bucket_id].append([source_ids, target_ids])
                     break
 
+    pickle.dump(words, "words.pkl")
     return data_set
 
-    #data_set = [[] for _ in _buckets]
-    #with tf.gfile.GFile(source_path, mode="r") as source_file:
-    #    with tf.gfile.GFile(target_path, mode="r") as target_file:
-    #        source, target = source_file.readline(), target_file.readline()
-    #        counter = 0
-    #        while source and target and (not max_size or counter < max_size):
-    #            counter += 1
-    #            if counter % 100000 == 0:
-    #                print("  reading data line %d" % counter)
-    #                sys.stdout.flush()
-    #            source_ids = [int(x) for x in source.split()]
-    #            target_ids = [int(x) for x in target.split()]
-    #            target_ids.append(data_utils.EOS_ID)
-    #            for bucket_id, (source_size, target_size) in enumerate(_buckets):
-    #                if len(source_ids) < source_size and len(target_ids) < target_size:
-    #                    data_set[bucket_id].append([source_ids, target_ids])
-    #                    break
-    #            source, target = source_file.readline(), target_file.readline()
-    #return data_set
+"""
+    data_set = [[] for _ in _buckets]
+    with tf.gfile.GFile(source_path, mode="r") as source_file:
+       with tf.gfile.GFile(target_path, mode="r") as target_file:
+           source, target = source_file.readline(), target_file.readline()
+           counter = 0
+           while source and target and (not max_size or counter < max_size):
+               counter += 1
+               if counter % 100000 == 0:
+                   print("  reading data line %d" % counter)
+                   sys.stdout.flush()
+               source_ids = [int(x) for x in source.split()]
+               target_ids = [int(x) for x in target.split()]
+               target_ids.append(data_utils.EOS_ID)
+               for bucket_id, (source_size, target_size) in enumerate(_buckets):
+                   if len(source_ids) < source_size and len(target_ids) < target_size:
+                       data_set[bucket_id].append([source_ids, target_ids])
+                       break
+               source, target = source_file.readline(), target_file.readline()
+    return data_set
+"""
 
 
 def create_model(session, forward_only):
@@ -156,6 +161,7 @@ def create_model(session, forward_only):
         model.saver.restore(session, ckpt.model_checkpoint_path)
     else:
         print("Created model with fresh parameters.")
+        exit(1)
         session.run(tf.initialize_all_variables())
     return model
 
