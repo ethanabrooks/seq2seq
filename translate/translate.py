@@ -317,6 +317,11 @@ def self_test():
 
 
 def main(_):
+    print("\nNamespace:")
+    settings = FLAGS.__flags
+    for setting in settings:
+        print(setting, settings[setting])
+    print()
     if FLAGS.self_test:
         self_test()
     elif FLAGS.decode:
