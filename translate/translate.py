@@ -77,6 +77,8 @@ FLAGS = tf.app.flags.FLAGS
 # See seq2seq_model.Seq2SeqModel for details of how they work.
 _buckets = [(5, 10), (10, 15), (20, 25), (40, 50)]
 
+WORDS_FILE = 'words.pkl'
+
 
 def read_data(source_path, max_size=None):
     """Read data from source and target files and put into buckets.
@@ -122,7 +124,7 @@ def read_data(source_path, max_size=None):
                     data_set[bucket_id].append([source_ids, target_ids])
                     break
 
-    pickle.dump(words, "words.pkl")
+    pickle.dump(words, WORDS_FILE)
     return data_set
 
 """
@@ -161,7 +163,6 @@ def create_model(session, forward_only):
         model.saver.restore(session, ckpt.model_checkpoint_path)
     else:
         print("Created model with fresh parameters.")
-        exit(1)
         session.run(tf.initialize_all_variables())
     return model
 
@@ -183,7 +184,7 @@ def train():
         print("Reading development and training data (limit: %d)."
               % FLAGS.max_train_data_size)
         dev_set = read_data(train)
-        train_set = read_data(train, FLAGS.max_train_data_size)
+        train_set = read_data(test, FLAGS.max_train_data_size)
         train_bucket_sizes = [len(train_set[b]) for b in xrange(len(_buckets))]
         train_total_size = float(sum(train_bucket_sizes))
 
@@ -262,8 +263,12 @@ def decode():
         sys.stdout.flush()
         sentence = sys.stdin.readline()
         while sentence:
+
+            words = pickle.load(WORDS_FILE)
             # Get token-ids for the input sentence.
-            token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), en_vocab)
+            # token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), en_vocab)
+            token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), words)
+
             # Which bucket does it belong to?
             bucket_id = min([b for b in xrange(len(_buckets))
                              if _buckets[b][0] > len(token_ids)])
