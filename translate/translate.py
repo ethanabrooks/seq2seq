@@ -256,12 +256,16 @@ def decode():
         model.batch_size = 1  # We decode one sentence at a time.
 
         # Load vocabularies.
-        en_vocab_path = os.path.join(FLAGS.data_dir,
-                                     "vocab%d.en" % FLAGS.en_vocab_size)
-        fr_vocab_path = os.path.join(FLAGS.data_dir,
-                                     "vocab%d.fr" % FLAGS.fr_vocab_size)
-        en_vocab, _ = data_utils.initialize_vocabulary(en_vocab_path)
-        _, rev_fr_vocab = data_utils.initialize_vocabulary(fr_vocab_path)
+
+        with open(WORDS_FILE) as handle:
+            words = pickle.load(handle)
+            
+        # en_vocab_path = os.path.join(FLAGS.data_dir,
+        #                              "vocab%d.en" % FLAGS.en_vocab_size)
+        # fr_vocab_path = os.path.join(FLAGS.data_dir,
+        #                              "vocab%d.fr" % FLAGS.fr_vocab_size)
+        # en_vocab, _ = data_utils.initialize_vocabulary(en_vocab_path)
+        # _, rev_fr_vocab = data_utils.initialize_vocabulary(fr_vocab_path)
 
         # Decode from standard input.
         sys.stdout.write("> ")
@@ -269,8 +273,6 @@ def decode():
         sentence = sys.stdin.readline()
         while sentence:
 
-            with open(WORDS_FILE) as handle:
-                words = pickle.load(handle)
             # Get token-ids for the input sentence.
             # token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), en_vocab)
             token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), words)
