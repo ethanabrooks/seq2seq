@@ -110,7 +110,10 @@ def read_data(source_path, max_size=None):
             words[word] = len(words)
             return words[word]
 
-    tokenizer = English(parser=False)
+    tokenizer = English(parser=False,
+                        tagger=False,
+                        entity=False,
+                        matcher=False)
 
     with open(source_path) as source:
         reader = csv.reader(source)
