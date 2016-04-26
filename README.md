@@ -14,3 +14,8 @@ Also:
 
 https://github.com/tensorflow/tensorflow/blob/0c3f116837b08957630eba996d83e517d47e38ac/tensorflow/g3doc/how_tos/new_data_formats/index.md
 
+
+Given a question, a candidate answer, and a document, our model asks "how closely 
+does the world described by this question/answer pair match the world described 
+by this document?" The model chooses the candidate that produces the closest
+match.
