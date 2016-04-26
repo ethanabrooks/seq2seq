@@ -1,0 +1,337 @@
+Where is John?,bathroom,John went to the bathroom.
+Where is Daniel?,bedroom,Sandra and Daniel travelled to the bedroom.
+Is Daniel in the garden?,no,Daniel travelled to the office.
+Where is Daniel?,hallway,Daniel and Sandra journeyed to the hallway.
+Is John in the bedroom?,no,John journeyed to the hallway.
+Is Mary in the bedroom?,no,Mary journeyed to the bathroom.
+ Who did John give the milk to?,Daniel,John gave Daniel the milk.
+Where is Daniel?,office,Daniel and Mary journeyed to the office.
+Where is John?,hallway,John journeyed to the hallway.
+Is Daniel in the garden?,yes,Daniel moved to the garden.
+Is John in the garden?,yes,John travelled to the garden.
+Where is Sandra?,kitchen,Daniel and Sandra travelled to the kitchen.
+Where is Daniel?,garden,Daniel journeyed to the garden.
+What is the office south of?,bedroom,The bedroom is north of the office.
+Where is Sandra?,bathroom,Sandra and John journeyed to the bathroom.
+Where is John?,garden,John and Mary travelled to the garden.
+Is Mary in the bathroom?,no,Mary travelled to the office.
+Where is John?,office,Sandra and John went to the office.
+Where is Mary?,office,Mary moved to the office.
+Is Sandra in the office?,no,Sandra is in the garden.
+Is John in the hallway?,no,John travelled to the bedroom.
+ Who received the apple?,Daniel,John gave Daniel the apple.
+Where is Sandra?,bedroom,Sandra and John moved to the bedroom.
+Where is Sandra?,hallway,Sandra went to the hallway.
+What is north of the hallway?,bathroom,The hallway is north of the bathroom.
+Where is Daniel?,kitchen,Daniel travelled to the kitchen.
+Where is Mary?,hallway,Mary and Daniel travelled to the hallway.
+Where is Sandra?,bathroom,Sandra and John went to the bathroom.
+What is the office south of?,bathroom,The office is south of the bathroom.
+Where is Sandra?,kitchen,Sandra and Daniel went to the kitchen.
+ Who did John give the football to?,Daniel,John gave Daniel the football.
+Is Mary in the garden?,yes,Mary moved to the garden.
+What did John give to Mary?,apple,John gave Mary the apple.
+Where is Mary?,bedroom,Mary and John travelled to the bedroom.
+Where is Daniel?,office,John and Daniel went to the office.
+Where is Daniel?,office,Mary and Daniel moved to the office.
+What is east of the garden?,bedroom,The bedroom is west of the garden.
+Is Daniel in the garden?,no,Daniel moved to the kitchen.
+ Who received the football?,Daniel,Sandra gave Daniel the football.
+Where is Daniel?,hallway,Daniel and John moved to the hallway.
+Is Sandra in the garden?,yes,Sandra is in the garden.
+ Who received the football?,Daniel, Sandra gave Daniel the football.
+Where is Sandra?,bathroom,Sandra travelled to the bathroom.
+Is Sandra in the hallway?,no,Sandra is not in the hallway.
+Is Sandra in the bathroom?,yes,Sandra went to the bathroom.
+Where is Sandra?,bathroom,Daniel and Sandra journeyed to the bathroom.
+Where is Mary?,garden,Sandra and Mary journeyed to the garden.
+Where is Sandra?,hallway,John and Sandra journeyed to the hallway.
+Who did John give the football to?,Sandra,John gave Sandra the football.
+Where is Mary?,garden,Mary moved to the garden.
+Is Sandra in the bathroom?,no,Sandra is no longer in the bathroom.
+Where is Daniel?,hallway,John and Daniel journeyed to the hallway.
+Is John in the bedroom?,yes,John travelled to the bedroom.
+Where is John?,bedroom,John journeyed to the bedroom.
+What is the office east of?,garden,The office is east of the garden.
+Where is Sandra?,hallway,Daniel and Sandra moved to the hallway.
+Where is Daniel?,kitchen,Daniel journeyed to the kitchen.
+Who received the apple?,Sandra,John gave Sandra the apple.
+Where is Sandra?,kitchen,Sandra and Daniel journeyed to the kitchen.
+Where is Sandra?,office,Sandra and John journeyed to the office.
+ Who did Sandra give the football to?,John,Sandra gave John the football.
+Where is Daniel?,bedroom,Daniel and Sandra moved to the bedroom.
+Where is Mary?,garden,Sandra and Mary went to the garden.
+Is John in the bathroom?,no,John travelled to the hallway.
+Where is John?,office,John and Sandra moved to the office.
+Where is Daniel?,office,Daniel and John moved to the office.
+What is west of the hallway?,bathroom,The hallway is west of the bathroom.
+Is Daniel in the hallway?,yes,Daniel is in the hallway.
+Where is Daniel?,bedroom,Daniel moved to the bedroom.
+Is Daniel in the garden?,no,Daniel journeyed to the bedroom.
+Is Mary in the bathroom?,no,Mary moved to the hallway.
+Where is Mary?,bedroom,Mary moved to the bedroom.
+Is Mary in the bedroom?,yes,Mary journeyed to the bedroom.
+Who received the apple?,Daniel,John gave Daniel the apple.
+What is south of the hallway?,office,The office is north of the hallway.
+Where is Daniel?,hallway,John and Daniel went to the hallway.
+Where is Mary?,kitchen,John and Mary went to the kitchen.
+ What did Sandra give to John?,apple,Sandra gave John the apple.
+ What did Sandra give to John?,apple, Sandra gave John the apple.
+Where is Daniel?,bedroom,Daniel journeyed to the bedroom.
+Where is Mary?,office,Daniel and Mary travelled to the office.
+Is Mary in the office?,yes,Mary moved to the office.
+Is Daniel in the office?,no,Daniel travelled to the bathroom.
+Where is Mary?,office,Mary went to the office.
+Where is Sandra?,bedroom,Sandra and Mary moved to the bedroom.
+Where is Sandra?,garden,Mary and Sandra travelled to the garden.
+Where is Daniel?,office,Daniel moved to the office.
+What is south of the hallway?,bedroom,The bedroom is north of the hallway.
+Is John in the bathroom?,no,John is not in the bathroom.
+Is Mary in the kitchen?,yes,Mary moved to the kitchen.
+Where is Sandra?,office,Sandra and Mary went to the office.
+Where is Mary?,kitchen,Mary moved to the kitchen.
+Who did Sandra give the football to?,Mary,Sandra gave Mary the football.
+Where is John?,garden,John and Mary moved to the garden.
+Where is Sandra?,bedroom,Sandra went to the bedroom.
+Where is Mary?,bedroom,Mary and Daniel moved to the bedroom.
+What is the bathroom west of?,hallway,The bathroom is west of the hallway.
+What did Mary give to John?,apple,Mary gave John the apple.
+Where is Sandra?,garden,Sandra journeyed to the garden.
+Is Mary in the office?,no,Mary is in the bedroom.
+Where is Sandra?,office,Sandra and Daniel travelled to the office.
+Where is Mary?,garden,Mary and John travelled to the garden.
+What is north of the bedroom?,office,The office is south of the bedroom.
+Where is John?,office,John journeyed to the office.
+What is west of the bathroom?,bedroom,The bedroom is east of the bathroom.
+Is John in the bathroom?,no,John went to the office.
+Is John in the office?,no,John journeyed to the bathroom.
+What is the office south of?,hallway,The hallway is north of the office.
+Where is Sandra?,bedroom,Mary and Sandra moved to the bedroom.
+Where is Daniel?,kitchen,Daniel and John journeyed to the kitchen.
+Where is Sandra?,garden,Sandra moved to the garden.
+What is the bathroom west of?,bedroom,The bedroom is east of the bathroom.
+Where is Mary?,kitchen,Daniel and Mary moved to the kitchen.
+Where is John?,hallway,John went to the hallway.
+Is John in the bedroom?,no,John moved to the hallway.
+What is west of the hallway?,bathroom,The bathroom is east of the hallway.
+Where is Daniel?,bedroom,Sandra and Daniel moved to the bedroom.
+Where is Mary?,bathroom,John and Mary moved to the bathroom.
+What is west of the bathroom?,bedroom,The bathroom is west of the bedroom.
+Where is Mary?,kitchen,Mary and Sandra journeyed to the kitchen.
+What is the bedroom east of?,office,The bedroom is east of the office.
+Is John in the hallway?,no,John is no longer in the hallway.
+ What did Sandra give to Daniel?,football,Sandra gave Daniel the football.
+Where is Mary?,bedroom,Mary and Daniel journeyed to the bedroom.
+Where is Mary?,bathroom,Mary travelled to the bathroom.
+Is Mary in the bathroom?,yes,Mary journeyed to the bathroom.
+Is Daniel in the bathroom?,yes,Daniel journeyed to the bathroom.
+Where is Daniel?,bathroom,Daniel moved to the bathroom.
+Where is Sandra?,hallway,Mary and Sandra travelled to the hallway.
+Where is Daniel?,kitchen,John and Daniel travelled to the kitchen.
+Where is Daniel?,bedroom,John and Daniel went to the bedroom.
+What is north of the bathroom?,garden,The garden is south of the bathroom.
+Where is John?,kitchen,Mary and John went to the kitchen.
+What is south of the bathroom?,kitchen,The bathroom is south of the kitchen.
+Where is John?,office,John and Daniel journeyed to the office.
+Where is Sandra?,kitchen,Sandra and Mary journeyed to the kitchen.
+Where is Mary?,office,Mary and John travelled to the office.
+What is west of the kitchen?,garden,The garden is east of the kitchen.
+Where is Sandra?,kitchen,Sandra and Daniel moved to the kitchen.
+Is Daniel in the bedroom?,yes,Daniel journeyed to the bedroom.
+What is the bedroom east of?,bathroom,The bathroom is west of the bedroom.
+Who received the football?,Daniel,Sandra gave Daniel the football.
+Is John in the garden?,no,John journeyed to the hallway.
+What is the garden north of?,hallway,The hallway is south of the garden.
+Where is Mary?,garden,Mary and Sandra went to the garden.
+Where is Mary?,kitchen,Mary and Sandra went to the kitchen.
+Is Mary in the office?,no,Mary is no longer in the office.
+Where is John?,hallway,John and Mary went to the hallway.
+Where is Daniel?,bathroom,Sandra and Daniel journeyed to the bathroom.
+What is the kitchen south of?,office,The kitchen is south of the office.
+Where is Daniel?,garden,John and Daniel moved to the garden.
+Is Mary in the office?,yes,Mary went to the office.
+What did John give to Mary?,milk,John gave Mary the milk.
+Where is Mary?,hallway,Sandra and Mary travelled to the hallway.
+What is east of the bathroom?,garden,The garden is west of the bathroom.
+Is Daniel in the office?,no,Daniel is in the hallway.
+Is Mary in the bathroom?,yes,Mary went to the bathroom.
+ Who did Sandra give the football to?,Daniel,Sandra gave Daniel the football.
+Where is John?,bedroom,John and Mary journeyed to the bedroom.
+Where is Daniel?,bathroom,Daniel travelled to the bathroom.
+Is John in the hallway?,no,John journeyed to the bedroom.
+Where is Mary?,hallway,Mary and Daniel journeyed to the hallway.
+Where is Daniel?,bathroom,Daniel journeyed to the bathroom.
+Is Daniel in the hallway?,no,Daniel went to the bathroom.
+Is John in the hallway?,yes,John journeyed to the hallway.
+Where is Daniel?,hallway,Sandra and Daniel moved to the hallway.
+ Who received the football?,John,Sandra gave John the football.
+Where is Daniel?,garden,Mary and Daniel moved to the garden.
+Where is Sandra?,hallway,Daniel and Sandra travelled to the hallway.
+Where is Mary?,bathroom,Mary went to the bathroom.
+Where is Sandra?,bedroom,Sandra moved to the bedroom.
+What is north of the office?,kitchen,The office is north of the kitchen.
+Where is Sandra?,garden,Sandra and Mary travelled to the garden.
+Is Mary in the office?,no,Mary travelled to the bedroom.
+What is the kitchen north of?,office,The office is south of the kitchen.
+Where is John?,kitchen,John and Mary travelled to the kitchen.
+Where is Daniel?,garden,Mary and Daniel travelled to the garden.
+ Who did Sandra give the football to?,Mary,Sandra gave Mary the football.
+What is south of the bathroom?,bedroom,The bathroom is south of the bedroom.
+Where is John?,office,John and Sandra travelled to the office.
+What is the bedroom south of?,garden,The garden is north of the bedroom.
+Is Mary in the hallway?,no,Mary is in the bedroom.
+Where is Sandra?,garden,John and Sandra went to the garden.
+Where is Daniel?,bedroom,Sandra and Daniel went to the bedroom.
+What is east of the office?,garden,The garden is west of the office.
+Where is Mary?,hallway,Mary moved to the hallway.
+Is John in the kitchen?,yes,John travelled to the kitchen.
+Where is John?,kitchen,John moved to the kitchen.
+Where is Sandra?,bedroom,John and Sandra moved to the bedroom.
+Where is John?,bathroom,Mary and John went to the bathroom.
+What is the kitchen south of?,hallway,The kitchen is south of the hallway.
+What is the hallway east of?,office,The hallway is east of the office.
+Where is Daniel?,kitchen,Daniel and Mary moved to the kitchen.
+Is John in the bedroom?,no,John journeyed to the office.
+Where is Mary?,office,Mary and Daniel moved to the office.
+Where is John?,kitchen,Daniel and John journeyed to the kitchen.
+Who received the apple?,Mary,John gave Mary the apple.
+Is John in the bathroom?,yes,John moved to the bathroom.
+Where is Daniel?,garden,Daniel went to the garden.
+ Who did John give the milk to?,Sandra,John gave Sandra the milk.
+Is Sandra in the bathroom?,no,Sandra is in the garden.
+Is Daniel in the office?,no,Daniel went to the garden.
+Is Mary in the hallway?,no,Mary travelled to the kitchen.
+Where is Daniel?,bathroom,Daniel and John travelled to the bathroom.
+Where is Daniel?,hallway,John and Daniel moved to the hallway.
+Where is Sandra?,kitchen,Mary and Sandra moved to the kitchen.
+Where is Sandra?,bedroom,Daniel and Sandra moved to the bedroom.
+Is Daniel in the office?,no,Daniel is no longer in the office.
+What is south of the bathroom?,kitchen,The kitchen is north of the bathroom.
+What is the bathroom east of?,bedroom,The bedroom is west of the bathroom.
+ Who received the football?,John, Mary gave John the football.
+Where is Sandra?,garden,Sandra and Daniel went to the garden.
+What is the hallway south of?,bedroom,The hallway is south of the bedroom.
+Where is Mary?,hallway,John and Mary travelled to the hallway.
+What is the bathroom west of?,hallway,The hallway is east of the bathroom.
+Where is Mary?,office,John and Mary journeyed to the office.
+Where is Daniel?,bedroom,Daniel and John journeyed to the bedroom.
+Where is Mary?,hallway,Mary and Sandra journeyed to the hallway.
+Is Mary in the bathroom?,no,Mary journeyed to the kitchen.
+Is Mary in the hallway?,no,Mary journeyed to the kitchen.
+Where is Daniel?,bathroom,Daniel went to the bathroom.
+What is the bedroom east of?,garden,The bedroom is east of the garden.
+Where is John?,office,Sandra and John travelled to the office.
+Where is Daniel?,office,Daniel journeyed to the office.
+Where is Daniel?,bathroom,Daniel and Mary travelled to the bathroom.
+Is Sandra in the bathroom?,no,Sandra journeyed to the bedroom.
+Is Daniel in the bathroom?,no,Daniel journeyed to the office.
+What is east of the hallway?,garden,The garden is west of the hallway.
+ Who did John give the apple to?,Daniel,John gave Daniel the apple.
+Is Daniel in the garden?,no,Daniel is no longer in the garden.
+What is the hallway west of?,bedroom,The hallway is west of the bedroom.
+Where is Daniel?,bathroom,Mary and Daniel went to the bathroom.
+Where is John?,hallway,Mary and John went to the hallway.
+Where is Sandra?,bathroom,Sandra and John moved to the bathroom.
+Where is Mary?,bedroom,Daniel and Mary journeyed to the bedroom.
+Where is Sandra?,garden,Sandra went to the garden.
+Where is John?,bathroom,John and Sandra moved to the bathroom.
+Where is Daniel?,kitchen,Daniel and Sandra moved to the kitchen.
+Where is Daniel?,kitchen,Sandra and Daniel travelled to the kitchen.
+Is Sandra in the kitchen?,no,Sandra journeyed to the bathroom.
+Where is Sandra?,bathroom,Sandra went to the bathroom.
+What is south of the office?,kitchen,The office is south of the kitchen.
+ Who received the football?,Sandra, John gave Sandra the football.
+Is Mary in the bathroom?,no,Mary went to the garden.
+Where is Daniel?,garden,Daniel travelled to the garden.
+Is Daniel in the office?,no,Daniel journeyed to the garden.
+Where is John?,bathroom,John and Sandra went to the bathroom.
+What is the bedroom west of?,kitchen,The bedroom is west of the kitchen.
+Where is Mary?,garden,Mary journeyed to the garden.
+Where is Daniel?,bathroom,John and Daniel went to the bathroom.
+Is Mary in the hallway?,no,Mary is no longer in the hallway.
+Is John in the kitchen?,no,John moved to the bedroom.
+Is Mary in the kitchen?,no,Mary travelled to the garden.
+Where is Mary?,hallway,Daniel and Mary journeyed to the hallway.
+Where is Daniel?,bathroom,John and Daniel journeyed to the bathroom.
+ What did John give to Daniel?,milk,John gave Daniel the milk.
+What is west of the kitchen?,bathroom,The kitchen is west of the bathroom.
+ What did John give to Daniel?,milk, John gave Daniel the milk.
+Is John in the garden?,yes,John moved to the garden.
+Where is Mary?,bedroom,Daniel and Mary travelled to the bedroom.
+What is the garden north of?,bathroom,The bathroom is south of the garden.
+Where is John?,garden,John journeyed to the garden.
+Where is Daniel?,bedroom,Mary and Daniel moved to the bedroom.
+What is south of the garden?,bathroom,The bathroom is north of the garden.
+Is Mary in the office?,yes,Mary travelled to the office.
+Where is Mary?,office,Mary journeyed to the office.
+Is Sandra in the hallway?,yes,Sandra moved to the hallway.
+Where is Sandra?,garden,Sandra and John went to the garden.
+Where is Daniel?,hallway,Daniel and Sandra went to the hallway.
+Where is Sandra?,kitchen,Sandra and Mary travelled to the kitchen.
+What is the bedroom east of?,kitchen,The kitchen is west of the bedroom.
+Where is Mary?,kitchen,John and Mary travelled to the kitchen.
+Where is John?,office,Daniel and John moved to the office.
+Where is Daniel?,bathroom,Mary and Daniel moved to the bathroom.
+Is Daniel in the bedroom?,no,Daniel moved to the kitchen.
+ What did Sandra give to Daniel?,apple,Sandra gave Daniel the apple.
+Where is John?,bathroom,John journeyed to the bathroom.
+Where is Sandra?,garden,Sandra and Daniel travelled to the garden.
+Where is Mary?,garden,Mary and Daniel journeyed to the garden.
+What did John give to Daniel?,apple,John gave Daniel the apple.
+Where is Daniel?,hallway,Daniel and John journeyed to the hallway.
+Is Daniel in the bathroom?,yes,Daniel moved to the bathroom.
+What is the office east of?,hallway,The office is east of the hallway.
+Where is Sandra?,kitchen,Sandra and Mary moved to the kitchen.
+What is south of the bedroom?,kitchen,The kitchen is north of the bedroom.
+Is Sandra in the bedroom?,no,Sandra moved to the bathroom.
+Where is Sandra?,garden,Sandra and John travelled to the garden.
+Where is Mary?,office,John and Mary went to the office.
+ What did John give to Mary?,football,John gave Mary the football.
+Is Daniel in the office?,no,Daniel travelled to the garden.
+Where is John?,bedroom,Sandra and John journeyed to the bedroom.
+What is the garden east of?,bathroom,The garden is east of the bathroom.
+Where is Sandra?,bedroom,Sandra and John journeyed to the bedroom.
+Is Daniel in the kitchen?,yes,Daniel went to the kitchen.
+Where is John?,garden,Sandra and John went to the garden.
+What is west of the garden?,hallway,The hallway is east of the garden.
+Where is Daniel?,bathroom,Daniel and Mary went to the bathroom.
+What is the hallway west of?,kitchen,The hallway is west of the kitchen.
+Is John in the garden?,no,John journeyed to the office.
+Where is Mary?,hallway,Mary and Sandra moved to the hallway.
+Where is Mary?,bathroom,Mary and Daniel journeyed to the bathroom.
+Is Mary in the kitchen?,no,Mary travelled to the office.
+Where is Sandra?,office,Sandra and John moved to the office.
+What did John give to Daniel?,milk,John gave Daniel the milk.
+Is Daniel in the kitchen?,no,Daniel is no longer in the kitchen.
+Is Mary in the bedroom?,yes,Mary is in the bedroom.
+Where is Mary?,hallway,Mary and John travelled to the hallway.
+Where is Daniel?,hallway,Daniel and Sandra moved to the hallway.
+Where is Mary?,office,Mary and Sandra moved to the office.
+Where is John?,hallway,Daniel and John travelled to the hallway.
+Is Daniel in the kitchen?,no,Daniel is not in the kitchen.
+Where is John?,kitchen,John and Sandra travelled to the kitchen.
+What is east of the office?,hallway,The hallway is west of the office.
+Is Sandra in the bathroom?,yes,Sandra travelled to the bathroom.
+Where is Sandra?,office,John and Sandra went to the office.
+Where is Sandra?,bathroom,Sandra journeyed to the bathroom.
+Is Daniel in the kitchen?,no,Daniel is in the hallway.
+Where is Mary?,hallway,Mary and Sandra went to the hallway.
+Who did John give the milk to?,Daniel,John gave Daniel the milk.
+Is John in the bedroom?,no,John went to the bathroom.
+What is west of the office?,kitchen,The kitchen is east of the office.
+Where is Mary?,kitchen,Sandra and Mary journeyed to the kitchen.
+What is west of the office?,hallway,The office is west of the hallway.
+Where is Sandra?,bedroom,Daniel and Sandra went to the bedroom.
+What is the bathroom east of?,kitchen,The bathroom is east of the kitchen.
+Where is Sandra?,kitchen,Sandra and John moved to the kitchen.
+Is Daniel in the garden?,yes,Daniel travelled to the garden.
+Where is John?,bedroom,John and Sandra moved to the bedroom.
+Where is Mary?,garden,Mary and John moved to the garden.
+What is the kitchen west of?,bedroom,The bedroom is east of the kitchen.
+Where is Daniel?,garden,Daniel and Sandra went to the garden.
+Where is Mary?,hallway,Mary and Daniel went to the hallway.
+Where is Mary?,kitchen,Mary and Daniel went to the kitchen.
+What is the bathroom north of?,kitchen,The bathroom is north of the kitchen.
+Is Sandra in the office?,no,Sandra is no longer in the office.
+Where is Sandra?,kitchen,Sandra journeyed to the kitchen.
+Where is Mary?,bathroom,Mary and John journeyed to the bathroom.
