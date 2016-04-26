@@ -185,7 +185,7 @@ def train():
     test = '../data/test.csv'
     valid = '../data/valid.csv'
 
-    with tf.Session() as sess:
+    with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
         # Create model.
         print("Creating %d layers of %d units." % (FLAGS.num_layers, FLAGS.size))
         model = create_model(sess, False)
@@ -267,7 +267,7 @@ def decode():
 
         with open(REV_VOCAB_FILE) as handle:
             rev_vocab = pickle.load(handle)
-            
+
         # en_vocab_path = os.path.join(FLAGS.data_dir,
         #                              "vocab%d.en" % FLAGS.en_vocab_size)
         # fr_vocab_path = os.path.join(FLAGS.data_dir,
