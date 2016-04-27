@@ -77,11 +77,9 @@ FLAGS = tf.app.flags.FLAGS
 # See seq2seq_model.Seq2SeqModel for details of how they work.
 _buckets = [(5, 10), (10, 15), (20, 25), (40, 50)]
 
-VOCAB_FILE = 'vocab.pkl'
-REV_VOCAB_FILE = 'rev-vocab.pkl'
 
 
-def read_data(source_path, max_size=None):
+def read_data(source_path, target_path, max_size=None):
     """Read data from source and target files and put into buckets.
 
     Args:
@@ -101,62 +99,59 @@ def read_data(source_path, max_size=None):
     """
 
     data_set = [[] for _ in _buckets]
-    vocab, rev_vocab = {}, {}
 
-    def word2int(word):
-        try:
-            return vocab[word]
-        except KeyError:
-            vocab[word] = len(vocab)
-            rev_vocab[vocab[word]] = word
-            return vocab[word]
-
-    tokenizer = English(parser=False, tagger=False, entity=False, matcher=False)
-
-    with open(source_path) as source:
-        reader = csv.reader(source)
-
-        for question, answer, label in reader:
-
-            source_ids, target_ids = ([word2int(token.lower_)
-                                       for source in (question + answer, label)
-                                       for token in tokenizer(unicode(source, 'utf8'))])
-
-            target_ids.append(data_utils.EOS_ID)
-            for bucket_id, (source_size, target_size) in enumerate(_buckets):
-                if len(source_ids) < source_size and len(target_ids) < target_size:
-                    data_set[bucket_id].append([source_ids, target_ids])
-                    break
-
-    with open(VOCAB_FILE, 'w') as handle:
-        pickle.dump(vocab, handle)
-
-    with open(REV_VOCAB_FILE, 'w') as handle:
-        pickle.dump(rev_vocab, handle)
-
-    return data_set
-
-"""
-    data_set = [[] for _ in _buckets]
     with tf.gfile.GFile(source_path, mode="r") as source_file:
-       with tf.gfile.GFile(target_path, mode="r") as target_file:
-           source, target = source_file.readline(), target_file.readline()
-           counter = 0
-           while source and target and (not max_size or counter < max_size):
-               counter += 1
-               if counter % 100000 == 0:
-                   print("  reading data line %d" % counter)
-                   sys.stdout.flush()
-               source_ids = [int(x) for x in source.split()]
-               target_ids = [int(x) for x in target.split()]
-               target_ids.append(data_utils.EOS_ID)
-               for bucket_id, (source_size, target_size) in enumerate(_buckets):
-                   if len(source_ids) < source_size and len(target_ids) < target_size:
-                       data_set[bucket_id].append([source_ids, target_ids])
-                       break
-               source, target = source_file.readline(), target_file.readline()
+        with tf.gfile.GFile(target_path, mode="r") as target_file:
+            source, target = source_file.readline(), target_file.readline()
+            counter = 0
+            while source and target and (not max_size or counter < max_size):
+                counter += 1
+                if counter % 100000 == 0:
+                    print("  reading data line %d" % counter)
+                    sys.stdout.flush()
+                source_ids = [int(x) for x in source.split()]
+                target_ids = [int(x) for x in target.split()]
+                target_ids.append(data_utils.EOS_ID)
+                for bucket_id, (source_size, target_size) in enumerate(_buckets):
+                    if len(source_ids) < source_size and len(target_ids) < target_size:
+                        data_set[bucket_id].append([source_ids, target_ids])
+                        break
+                source, target = source_file.readline(), target_file.readline()
     return data_set
-"""
+
+
+# def word2int(word):
+#     try:
+#         return vocab[word]
+#     except KeyError:
+#         vocab[word] = len(vocab) + 4  # first 4 integers have special meaning in data_utils
+#         rev_vocab[vocab[word]] = word
+#         return vocab[word]
+#
+# tokenizer = English(parser=False, tagger=False, entity=False, matcher=False)
+#
+# with open(source_path) as source:
+#     reader = csv.reader(source)
+#
+#     for question, answer, label in reader:
+#
+#         source_ids, target_ids = ([word2int(token.lower_)
+#                                    for source in (question + answer, label)
+#                                    for token in tokenizer(unicode(source, 'utf8'))])
+#
+#         target_ids.append(data_utils.EOS_ID)
+#         for bucket_id, (source_size, target_size) in enumerate(_buckets):
+#             if len(source_ids) < source_size and len(target_ids) < target_size:
+#                 data_set[bucket_id].append([source_ids, target_ids])
+#                 break
+#
+# with open(VOCAB_FILE, 'w') as handle:
+#     pickle.dump(vocab, handle)
+#
+# with open(REV_VOCAB_FILE, 'w') as handle:
+#     pickle.dump(rev_vocab, handle)
+
+# return data_set
 
 
 def create_model(session, forward_only):
@@ -178,11 +173,9 @@ def create_model(session, forward_only):
 
 def train():
     """Train a en->fr translation model using WMT data."""
-    # Prepare WMT data.
-    print("Preparing WMT data in %s" % FLAGS.data_dir)
-    train = '../data/train.csv'
-    test = '../data/test.csv'
-    valid = '../data/valid.csv'
+    # Prepare bAbI data.
+    print("Preparing bAbI data in %s" % FLAGS.data_dir)
+    train_ids, dev_ids = data_utils.prepare_babi_data()  # we need to actually write this function
 
     with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
         # Create model.
@@ -192,8 +185,8 @@ def train():
         # Read data into buckets and compute their sizes.
         print("Reading development and training data (limit: %d)."
               % FLAGS.max_train_data_size)
-        dev_set = read_data(train)
-        train_set = read_data(test, FLAGS.max_train_data_size)
+        dev_set = read_data(dev_ids)
+        train_set = read_data(train_ids, FLAGS.max_train_data_size)
         train_bucket_sizes = [len(train_set[b]) for b in xrange(len(_buckets))]
         train_total_size = float(sum(train_bucket_sizes))
 
