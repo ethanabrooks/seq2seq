@@ -101,7 +101,6 @@ def read_data(source_path, max_size=None):
     """
 
     data_set = [[] for _ in _buckets]
-
     vocab, rev_vocab = {}, {}
 
     def word2int(word):
@@ -112,18 +111,18 @@ def read_data(source_path, max_size=None):
             rev_vocab[vocab[word]] = word
             return vocab[word]
 
-    tokenizer = English(parser=False,
-                        tagger=False,
-                        entity=False,
-                        matcher=False)
+    tokenizer = English(parser=False, tagger=False, entity=False, matcher=False)
 
     with open(source_path) as source:
         reader = csv.reader(source)
 
         for question, answer, label in reader:
-            source_ids = [word2int(token.lower_) for token in tokenizer(unicode(question + answer, 'utf8'))]
-            target_ids = [word2int(token.lower_) for token in tokenizer(unicode(label, 'utf8'))]
 
+            source_ids, target_ids = ([word2int(token.lower_)
+                                       for source in (question + answer, label)
+                                       for token in tokenizer(unicode(source, 'utf8'))])
+
+            target_ids.append(data_utils.EOS_ID)
             for bucket_id, (source_size, target_size) in enumerate(_buckets):
                 if len(source_ids) < source_size and len(target_ids) < target_size:
                     data_set[bucket_id].append([source_ids, target_ids])
