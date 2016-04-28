@@ -1,11 +1,17 @@
-import tensorflow as tf
+from __future__ import print_function
+import shutil
+
+import sys
+
 import numpy as np
+import tensorflow as tf
 
 num_units = 1
 input_size = 1
-num_epochs = 70
 size_data = 10
-log_dir = '../summaries'
+num_epochs = 1000
+print_interval = num_epochs // 10
+log_dir = 'summaries'
 starting_numbers = np.random.choice(num_epochs, num_epochs)
 
 
@@ -15,7 +21,7 @@ def data(i):
 
 # inputs = tf.constant(list(data), shape=[size_data], dtype=tf.float32)
 
-init = tf.constant_initializer(1)
+init = tf.random_uniform_initializer()
 with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # GRU
     inputs = tf.placeholder(tf.float32, shape=[size_data])
@@ -30,24 +36,32 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # Train loss
     targets = tf.concat(1, inputs)
     loss = tf.nn.l2_loss(outputs - targets)
-    train_op = tf.train.MomentumOptimizer(.01, .1).minimize(loss)
+    train_op = tf.train.AdadeltaOptimizer().minimize(loss)
+
+    # values to track
+    summary_op = tf.scalar_summary('loss', loss)
+    shutil.rmtree(log_dir)
+    writer = tf.train.SummaryWriter(log_dir, sess.graph_def)
 
     tf.initialize_all_variables().run()
     for i in xrange(num_epochs):
-        start = starting_numbers[i]
-        _, train_outputs, loss_value = sess.run([train_op, outputs, loss],
-                                                feed_dict={inputs: data(start)})
+        start = 25
+        feed = {inputs: data(start)}
+        _, summary, train_outputs, loss_value = sess.run(
+            [train_op, summary_op, outputs, loss], feed_dict=feed)
 
-        tf.scalar_summary('loss', loss_value)
-        tf.merge_all_summaries()
-        tf.train.SummaryWriter(log_dir)
+        if i % print_interval == 0:
+            # save summary
+            writer.add_summary(summary)
 
-
-        if i % 10 == 0:
             print('loss: ' + str(loss_value))
 
-    test_outputs = sess.run(outputs, feed_dict={inputs: data(7)})
+        if loss_value < .1:
+            print('loss: ' + str(loss_value))
+            break
+
+    test_outputs = sess.run(outputs, feed_dict={inputs: data(start)})
 
 print('outputs')
 for output in train_outputs[0, :]:
-    print("{:1.1f}".format(output))
+    print("{:1.1f}, ".format(output), end='')
