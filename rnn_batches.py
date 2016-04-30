@@ -29,7 +29,7 @@ class Args:
         self.num_terms = 3
         self.distinct_nums = 5
         self.vocabulary_size = self.distinct_nums * self.num_terms
-        self.num_instances = 1  #self.distinct_nums ** self.num_terms / 2
+        self.num_instances = self.distinct_nums ** self.num_terms / 2
         self.num_cells = self.vocabulary_size
 
     def __str__(self):
@@ -91,7 +91,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     def feed(batch, print_args=False, fold=3):
         input_values = data()
         batch_size = input_values.shape[1] // fold
-        # input_values = input_values[:, batch_size * batch: batch_size * (batch + 1)]
+        input_values = input_values[:, batch_size * batch: batch_size * (batch + 1)]
         if print_args:
             print("data")
             print(input_values)
@@ -108,40 +108,39 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         epoch += 1.0
         try:
             cost = 0
-            # for batch in range(2):
-            batch = 0
-            _, loss_value, train_outputs = sess.run(
-                [train_op, loss, outputs], feed_dict=feed(batch))
-            cost += loss_value
+            for batch in range(2):
+                _, loss_value, train_outputs = sess.run(
+                    [train_op, loss, outputs], feed_dict=feed(batch))
+                cost += loss_value
 
-            speed = 0 if epoch == 1 else prev_cost - cost
-            avg_speed = avg_speed * ((epoch - 1) / epoch) + speed / epoch
-            prev_cost = cost
+                speed = 0 if epoch == 1 else prev_cost - cost
+                avg_speed = avg_speed * ((epoch - 1) / epoch) + speed / epoch
+                prev_cost = cost
 
-            print('\repoch: {:5.0f} | cost: {:6.1f} | avg speed: {:6.4f} | speed {:6.4f}'
-                  .format(epoch, cost, avg_speed, speed), end='')
-            if epoch % print_interval == 0:
-                test_outputs = sess.run(outputs, feed_dict=feed(batch))
+                print('\repoch: {:5.0f} | cost: {:6.1f} | avg speed: {:6.4f} | speed {:6.4f}'
+                      .format(epoch, cost, avg_speed, speed), end='')
+                if epoch % print_interval == 0:
+                    test_outputs = sess.run(outputs, feed_dict=feed(batch))
 
-                print()
-                print("TRAIN")
-                print("inputs")
-                print(feed_dict[inputs][:, :10])
-                print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
-                print("{:10}".format("targets"), feed_dict[targets][:10])
-                print()
+                    print()
+                    print("TRAIN")
+                    print("inputs")
+                    print(feed_dict[inputs][:, :10])
+                    print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
+                    print("{:10}".format("targets"), feed_dict[targets][:10])
+                    print()
 
-                print()
-                print("TEST")
-                feed_dict = feed(batch=2)
-                test_outputs = sess.run(outputs, feed_dict=feed_dict)
-                print("inputs")
-                print(feed_dict[inputs][:, :10])
-                print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
-                print("{:10}".format("targets"), feed_dict[targets][:10])
-                print()
-                # save summary for Tensorboard
-                # writer.add_summary(summary)
+                    print()
+                    print("TEST")
+                    feed_dict = feed(batch=2)
+                    test_outputs = sess.run(outputs, feed_dict=feed_dict)
+                    print("inputs")
+                    print(feed_dict[inputs][:, :10])
+                    print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
+                    print("{:10}".format("targets"), feed_dict[targets][:10])
+                    print()
+                    # save summary for Tensorboard
+                    # writer.add_summary(summary)
 
         except KeyboardInterrupt:
             break
