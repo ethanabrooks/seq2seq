@@ -9,10 +9,10 @@ import numpy as np
 import tensorflow as tf
 
 optimizers = {
-    1: tf.train.GradientDescentOptimizer(.1),
+    1: tf.train.GradientDescentOptimizer(1.),
     2: tf.train.AdadeltaOptimizer(),
     3: tf.train.AdagradOptimizer(.1),
-    4: tf.train.MomentumOptimizer(.1, 1.),
+    4: tf.train.MomentumOptimizer(1., 1.),
     5: tf.train.AdamOptimizer(.1),
     6: tf.train.FtrlOptimizer(.1),
     7: tf.train.RMSPropOptimizer(.1)
@@ -22,9 +22,9 @@ optimizers = {
 class Config:
     def __init__(self):
         self.opt_choice = 3
-        self.num_units = 21
+        self.num_units = 1
         self.input_size = 1
-        self.size_data = 1
+        self.size_data = 4
         self.num_epochs = 10000
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Config:
 
 config = Config()
 print(config)
-print_interval = 50
+print_interval = 100
 
 log_dir = 'summaries'
 vocabulary_size = 22
@@ -45,33 +45,32 @@ random.shuffle(starting_numbers)
 
 
 def data(i):
-    return [i] * config.size_data
-    # range(i, i + config.size_data)
+    return list(range(i, i + config.size_data))
 
 
 def target(i):
-    return [i + 1]
+    return list(range(i, i + config.size_data))
+
 
 init = tf.random_uniform_initializer()
 with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     # embeddings
-    embeddings = tf.Variable(tf.random_uniform([vocabulary_size, embedding_size], -1.0, 1.0))
-    inputs = tf.placeholder(tf.int32, shape=[config.size_data], name='inputs')
-    lookups = tf.nn.embedding_lookup(embeddings, inputs)
-    inputs_list = tf.unpack(tf.expand_dims(lookups, 1))
+    inputs = tf.placeholder(tf.float32, shape=[config.size_data], name='inputs')
+    inputs_list = [tf.reshape(x, [1, 1]) for x in tf.unpack(inputs)]
 
     # GRU
     cell = tf.nn.rnn_cell.GRUCell(config.num_units, config.input_size)
     lstm_output, state = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
     # Transform outputs
-    outputs = tf.reshape(state, [1, len(starting_numbers)])
+    w = tf.get_variable("w", [config.num_units])
+    concat = tf.concat(0, lstm_output, name='concat')
+    outputs = tf.reshape(tf.mul(w, concat, name='outputs'), [config.size_data])
 
     # Train loss
-    targets = tf.placeholder(tf.int64, shape=1, name='targets')
-    losses = tf.nn.sparse_softmax_cross_entropy_with_logits(outputs, targets)
-    loss = tf.reduce_sum(losses, name='loss')
+    targets = tf.placeholder(tf.float32, shape=[config.size_data], name='targets')
+    loss = tf.nn.l2_loss(targets - outputs)
     train_op = optimizers[config.opt_choice].minimize(loss)
 
     # Tensorboard
@@ -80,10 +79,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     tf.initialize_all_variables().run()
 
-    print(sess.run(embeddings))
+
     def feed(i):
         return {inputs: data(i),
                 targets: target(i)}
+
 
     epoch = 0.0
     prev_cost = 0
@@ -93,7 +93,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         try:
             cost = 0
             for i in range(len(starting_numbers)):
-                start = starting_numbers[i]
+                start = 0  # starting_numbers[i]
                 _, loss_value, train_outputs = sess.run(
                     [train_op, loss, outputs], feed_dict=feed(start))
                 cost += loss_value
@@ -109,19 +109,17 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
                 print()
                 print()
-                print("inputs", data(test))
+                print("inputs", data(0))
                 print("outputs", test_outputs)
-                print("choice", np.argmax(test_outputs))
-                print("targets", target(test))
+                print("targets", target(0))
 
                 rand_choice = random.choice(starting_numbers)
                 test_outputs = sess.run(outputs, feed_dict=feed(rand_choice))
 
                 print()
-                print("inputs", data(rand_choice))
+                print("inputs", data(0))
                 print("outputs", test_outputs)
-                print("choice", np.argmax(test_outputs))
-                print("targets", target(rand_choice))
+                print("targets", target(0))
                 print()
 
                 # save summary for Tensorboard
@@ -130,11 +128,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         except KeyboardInterrupt:
             break
 
+    test = 30
     test_data = data(test)
     test_outputs = sess.run(outputs, feed_dict=feed(test))
     print()
     print("inputs", test_data)
     print("outputs", test_outputs)
-    print("choice", np.argmax(test_outputs))
-    print("targets", test_data[0])
+    print("targets", target(test))
     # print_output(test_data, test_outputs)
