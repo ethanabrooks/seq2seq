@@ -88,7 +88,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     train_op = optimizers[args.opt_choice].minimize(loss)
 
     # Tensorboard
-    shutil.rmtree(log_dir)
+    # shutil.rmtree(log_dir)
     writer = tf.train.SummaryWriter(log_dir, sess.graph)
 
     tf.initialize_all_variables().run()
