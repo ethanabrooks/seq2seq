@@ -26,11 +26,13 @@ optimizers = {
 class Args:
     def __init__(self):
         self.opt_choice = 3
-        self.num_terms = 3
+        self.num_terms = 5
         self.distinct_nums = 5
         self.vocabulary_size = self.distinct_nums * self.num_terms
-        self.num_instances = 1  #self.distinct_nums ** self.num_terms / 2
+        self.num_instances = self.distinct_nums ** self.num_terms / 2
         self.num_cells = self.vocabulary_size
+        self.fold = 3
+        self.batch_size = self.num_instances // self.fold
 
     def __str__(self):
         return str(self.__dict__)
@@ -38,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 100
+print_interval = 1000
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
@@ -47,12 +49,16 @@ test = random.choice(starting_numbers)
 starting_numbers.pop(test)
 random.shuffle(starting_numbers)
 
-product = np.array(list(itertools.product(*(range(args.distinct_nums)
-                                            for _ in range(args.num_terms))))).transpose()
+product_array = np.array(list(itertools.product(*(range(args.distinct_nums)
+                                                  for _ in range(args.num_terms)))))
+np.random.shuffle(product_array)
+print(product_array)
 
 
 def data():
-    return product
+    # return np.random.randint(args.distinct_nums,
+    #                          size=[args.distinct_nums, 1562])
+    return product_array.transpose()
 
 
 def target(data):
@@ -64,8 +70,8 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # embeddings
     embeddings = tf.Variable(tf.random_uniform([args.vocabulary_size, embedding_size], -1.0, 1.0))
     inputs = tf.placeholder(tf.int32,
-                            shape=[args.num_terms,
-                                   args.num_instances], name='inputs')
+                            shape=[args.num_terms, args.batch_size],
+                            name='inputs')
     lookups = tf.nn.embedding_lookup(embeddings, inputs)
     inputs_list = tf.unpack(lookups)
 
@@ -76,7 +82,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # TODO: add matrix mult at the end so that lstm can learn sparse repr
 
     # Train loss
-    targets = tf.placeholder(tf.int64, shape=args.num_instances, name='targets')
+    targets = tf.placeholder(tf.int64, shape=args.batch_size, name='targets')
     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(outputs, targets)
     loss = tf.reduce_sum(losses, name='loss')
     train_op = optimizers[args.opt_choice].minimize(loss)
@@ -90,8 +96,9 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     def feed(batch, print_args=False, fold=3):
         input_values = data()
-        batch_size = input_values.shape[1] // fold
-        # input_values = input_values[:, batch_size * batch: batch_size * (batch + 1)]
+        start = args.batch_size * batch
+        end = start + args.batch_size
+        input_values = input_values[:, start:end]
         if print_args:
             print("data")
             print(input_values)
@@ -121,7 +128,8 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
             print('\repoch: {:5.0f} | cost: {:6.1f} | avg speed: {:6.4f} | speed {:6.4f}'
                   .format(epoch, cost, avg_speed, speed), end='')
             if epoch % print_interval == 0:
-                test_outputs = sess.run(outputs, feed_dict=feed(batch))
+                feed_dict = feed(batch)
+                test_outputs = sess.run(outputs, feed_dict=feed_dict)
 
                 print()
                 print("TRAIN")
