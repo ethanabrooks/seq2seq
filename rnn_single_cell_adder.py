@@ -69,12 +69,12 @@ def target(data):
 init = tf.random_uniform_initializer()
 with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # embeddings
-    embeddings = tf.Variable(tf.random_uniform([vocabulary_size, embedding_size], -1.0, 1.0))
     inputs = tf.placeholder(tf.int32,
                             shape=[args.num_terms,
                                    args.num_instances], name='inputs')
 
     with tf.device('/cpu:0'):
+        embeddings = tf.Variable(tf.random_uniform([vocabulary_size, embedding_size], -1.0, 1.0))
         lookups = tf.nn.embedding_lookup(embeddings, inputs)
     inputs_list = tf.unpack(lookups)
 
