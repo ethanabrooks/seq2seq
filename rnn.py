@@ -71,7 +71,8 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     inputs = tf.placeholder(tf.int32,
                             shape=[args.num_terms, args.batch_size],
                             name='inputs')
-    lookups = tf.nn.embedding_lookup(embeddings, inputs)
+    with tf.device('/cpu:0'):
+        lookups = tf.nn.embedding_lookup(embeddings, inputs)
     inputs_list = tf.unpack(lookups)
 
     # GRU
