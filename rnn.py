@@ -52,7 +52,6 @@ random.shuffle(starting_numbers)
 product_array = np.array(list(itertools.product(*(range(args.distinct_nums)
                                                   for _ in range(args.num_terms)))))
 np.random.shuffle(product_array)
-print(product_array)
 
 
 def data():
