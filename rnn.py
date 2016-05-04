@@ -27,7 +27,7 @@ class Args:
     def __init__(self):
         self.opt_choice = 3
         self.num_terms = 5
-        self.distinct_nums = 5
+        self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
         self.num_cells = self.vocabulary_size
@@ -87,9 +87,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(outputs, targets)
     loss = tf.reduce_sum(losses, name='loss')
     train_op = optimizers[args.opt_choice].minimize(loss)
+    train_summary = tf.scalar_summary("train loss", loss)
+    test_summary = tf.scalar_summary("test loss", loss)
 
     # Tensorboard
-    # shutil.rmtree(log_dir)
+    shutil.rmtree(log_dir)
     writer = tf.train.SummaryWriter(log_dir, sess.graph)
 
     tf.initialize_all_variables().run()
@@ -117,9 +119,12 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         try:
             cost = 0
             for batch in range(2):
-                _, loss_value, train_outputs = sess.run(
-                    [train_op, loss, outputs], feed_dict=feed(batch))
+                _, summary, loss_value, train_outputs = sess.run(
+                    [train_op, train_summary, loss, outputs], feed_dict=feed(batch))
                 cost += loss_value
+
+                # save summary for Tensorboard
+                writer.add_summary(summary)
 
             speed = 0 if epoch == 1 else prev_cost - cost
             avg_speed = avg_speed * ((epoch - 1) / epoch) + speed / epoch
@@ -142,7 +147,8 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 print()
                 print("TEST")
                 feed_dict = feed(batch=2)
-                test_outputs = sess.run(outputs, feed_dict=feed_dict)
+                test_outputs, summary = sess.run([outputs, test_summary],
+                                                 feed_dict=feed_dict)
                 print("inputs")
                 print(feed_dict[inputs][:, :10])
                 choices = np.argmax(test_outputs, axis=1).round(0)
@@ -150,8 +156,9 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 print("{:10}".format("targets"), feed_dict[targets][:10])
                 accuracy = (choices == feed_dict[targets]).sum() / float(choices.size)
                 print("\n >>> accuracy: {} <<< \n".format(accuracy))
+
                 # save summary for Tensorboard
-                # writer.add_summary(summary)
+                writer.add_summary(summary)
 
         except KeyboardInterrupt:
             break

@@ -27,7 +27,7 @@ class Args:
     def __init__(self):
         self.opt_choice = 3
         self.num_terms = 5
-        self.distinct_nums = 5
+        self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
         self.num_cells = self.vocabulary_size
@@ -40,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 500
+print_interval = 10
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
