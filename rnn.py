@@ -33,6 +33,7 @@ class Args:
         self.num_cells = 10
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
+        self.multicell = True
 
     def __str__(self):
         return str(self.__dict__)
@@ -78,6 +79,9 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     # GRU
     cell = tf.nn.rnn_cell.GRUCell(args.num_cells)
+    multicell = rnn_cell.MultiRNNCell([cell] * 2)
+    if args.multicell:
+        cell = multicell
     all_outputs, final_output = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
     # TODO: add matrix mult at the end so that lstm can learn sparse repr
