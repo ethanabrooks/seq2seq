@@ -40,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 1
+print_interval = 200
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
