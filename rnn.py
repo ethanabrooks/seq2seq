@@ -40,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 1000
+print_interval = 100
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
@@ -95,7 +95,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     tf.initialize_all_variables().run()
 
 
-    def feed(batch, print_args=False, fold=3):
+    def feed(batch, print_args=False):
         input_values = data()
         start = args.batch_size * batch
         end = start + args.batch_size
@@ -116,11 +116,10 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         epoch += 1.0
         try:
             cost = 0
-            # for batch in range(2):
-            batch = 0
-            _, loss_value, train_outputs = sess.run(
-                [train_op, loss, outputs], feed_dict=feed(batch))
-            cost += loss_value
+            for batch in range(2):
+                _, loss_value, train_outputs = sess.run(
+                    [train_op, loss, outputs], feed_dict=feed(batch))
+                cost += loss_value
 
             speed = 0 if epoch == 1 else prev_cost - cost
             avg_speed = avg_speed * ((epoch - 1) / epoch) + speed / epoch
@@ -129,7 +128,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
             print('\repoch: {:5.0f} | cost: {:6.1f} | avg speed: {:6.4f} | speed {:6.4f}'
                   .format(epoch, cost, avg_speed, speed), end='')
             if epoch % print_interval == 0:
-                feed_dict = feed(batch)
+                feed_dict = feed(batch=0)
                 test_outputs = sess.run(outputs, feed_dict=feed_dict)
 
                 print()
@@ -146,9 +145,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 test_outputs = sess.run(outputs, feed_dict=feed_dict)
                 print("inputs")
                 print(feed_dict[inputs][:, :10])
-                print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
+                choices = np.argmax(test_outputs, axis=1).round(0)
+                print("{:10}".format("choice"), choices[:10])
                 print("{:10}".format("targets"), feed_dict[targets][:10])
-                print()
+                accuracy = (choices == feed_dict[targets]).sum() / float(choices.size)
+                print("\n >>> accuracy: {} <<< \n".format(accuracy))
                 # save summary for Tensorboard
                 # writer.add_summary(summary)
 

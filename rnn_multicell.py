@@ -67,9 +67,7 @@ def target(data):
 init = tf.random_uniform_initializer()
 with tf.Session() as sess, tf.variable_scope("", initializer=init):
     # embeddings
-    inputs = tf.placeholder(tf.int32,
-                            shape=[args.num_terms, args.batch_size],
-                            name='inputs')
+    inputs = tf.placeholder(tf.int32, shape=[args.num_terms, args.batch_size], name='inputs')
     with tf.device('/cpu:0'):
         embeddings = tf.Variable(tf.random_uniform([args.vocabulary_size, embedding_size], -1.0, 1.0))
         lookups = tf.nn.embedding_lookup(embeddings, inputs)
@@ -87,6 +85,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(outputs, targets)
     loss = tf.reduce_sum(losses, name='loss')
     train_op = optimizers[args.opt_choice].minimize(loss)
+    summary = tf.scalar_summary()
 
     # Tensorboard
     shutil.rmtree(log_dir)
@@ -116,11 +115,10 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         epoch += 1.0
         try:
             cost = 0
-            # for batch in range(2):
-            batch = 0
-            _, loss_value, train_outputs = sess.run(
-                [train_op, loss, outputs], feed_dict=feed(batch))
-            cost += loss_value
+            for batch in range(2):
+                _, loss_value, train_outputs = sess.run(
+                    [train_op, loss, outputs], feed_dict=feed(batch))
+                cost += loss_value
 
             speed = 0 if epoch == 1 else prev_cost - cost
             avg_speed = avg_speed * ((epoch - 1) / epoch) + speed / epoch
@@ -146,8 +144,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 test_outputs = sess.run(outputs, feed_dict=feed_dict)
                 print("inputs")
                 print(feed_dict[inputs][:, :10])
-                print("{:10}".format("choice"), np.argmax(test_outputs, axis=1)[:10])
+                choices = np.argmax(test_outputs, axis=1)
+                print("{:10}".format("choice"), choices[:10])
                 print("{:10}".format("targets"), feed_dict[targets][:10])
+                accuracy = (choices == feed_dict[targets]).sum() / float(choices.size)
+                print("\n >>> accuracy: {} <<< \n".format(accuracy))
                 print()
                 # save summary for Tensorboard
                 # writer.add_summary(summary)
