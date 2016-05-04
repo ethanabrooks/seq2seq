@@ -30,7 +30,7 @@ class Args:
         self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
-        self.num_cells = self.vocabulary_size
+        self.num_cells = 4
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
 
@@ -78,9 +78,11 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     # GRU
     cell = tf.nn.rnn_cell.GRUCell(args.num_cells)
-    lstm_output, outputs = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
+    all_outputs, final_output = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
     # TODO: add matrix mult at the end so that lstm can learn sparse repr
+    w = tf.get_variable("w", shape=[args.num_cells, args.vocabulary_size])
+    outputs = tf.matmul(final_output, w)
 
     # Train loss
     targets = tf.placeholder(tf.int64, shape=args.batch_size, name='targets')
