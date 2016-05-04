@@ -30,12 +30,12 @@ class Args:
         self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
-        self.num_cells = 12
+        self.num_cells = 10
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
         self.multicell = False
         self.cell_depth = 2
-        self.keep_prob = .7
+        self.keep_prob = 1
 
     def __str__(self):
         return str(self.__dict__)
@@ -88,17 +88,19 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
         cell = multicell
     all_outputs, final_output = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
-    # TODO: add matrix mult at the end so that lstm can learn sparse repr
+    # outputs
     w_height = args.num_cells
     if args.multicell:
         w_height *= args.cell_depth
     w = tf.get_variable("w", shape=[w_height, args.vocabulary_size])
     outputs = tf.matmul(final_output, w)
 
-    # Train loss
+    # loss
     targets = tf.placeholder(tf.int64, shape=args.batch_size, name='targets')
     losses = tf.nn.sparse_softmax_cross_entropy_with_logits(outputs, targets)
     loss = tf.reduce_sum(losses, name='loss')
+
+    # optimization
     train_op = optimizers[args.opt_choice].minimize(loss)
     train_summary = tf.scalar_summary("train loss", loss)
     test_summary = tf.scalar_summary("test loss", loss)
