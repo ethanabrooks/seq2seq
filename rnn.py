@@ -30,7 +30,7 @@ class Args:
         self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
-        self.num_cells = 4
+        self.num_cells = 10
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
 
@@ -40,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 100
+print_interval = 200
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
