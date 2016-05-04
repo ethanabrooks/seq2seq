@@ -30,7 +30,7 @@ class Args:
         self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
-        self.num_cells = 10
+        self.num_cells = 7
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
 
@@ -40,7 +40,7 @@ class Args:
 
 args = Args()
 print(args)
-print_interval = 200
+print_interval = 1
 
 log_dir = 'summaries'
 starting_numbers = list(range(args.vocabulary_size))
@@ -153,10 +153,10 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 test_outputs, summary = sess.run([outputs, test_summary],
                                                  feed_dict=feed_dict)
                 print("inputs")
-                print(feed_dict[inputs][:, :10])
+                print(feed_dict[inputs][:, :30])
                 choices = np.argmax(test_outputs, axis=1).round(0)
-                print("{:10}".format("choice"), choices[:10])
-                print("{:10}".format("targets"), feed_dict[targets][:10])
+                print("{:10}".format("choice"), choices[:30])
+                print("{:10}".format("targets"), feed_dict[targets][:30])
                 accuracy = (choices == feed_dict[targets]).sum() / float(choices.size)
                 print("\n >>> accuracy: {} <<< \n".format(accuracy))
 
