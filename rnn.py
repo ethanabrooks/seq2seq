@@ -30,11 +30,12 @@ class Args:
         self.distinct_nums = 3
         self.vocabulary_size = self.distinct_nums * self.num_terms
         self.num_instances = self.distinct_nums ** self.num_terms / 2
-        self.num_cells = 9
+        self.num_cells = 10
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
         self.multicell = True
         self.cell_depth = 2
+        self.keep_prob = .7
 
     def __str__(self):
         return str(self.__dict__)
@@ -80,6 +81,8 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     # GRU
     cell = tf.nn.rnn_cell.GRUCell(args.num_cells)
+    cell = tf.nn.rnn_cell.DropoutWrapper(
+        cell, output_keep_prob=args.keep_prob)
     multicell = rnn_cell.MultiRNNCell([cell] * args.cell_depth)
     if args.multicell:
         cell = multicell
