@@ -89,7 +89,10 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
     all_outputs, final_output = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
     # TODO: add matrix mult at the end so that lstm can learn sparse repr
-    w = tf.get_variable("w", shape=[args.num_cells * args.cell_depth, args.vocabulary_size])
+    w_height = args.num_cells
+    if args.multicell:
+        w_height *= args.cell_depth
+    w = tf.get_variable("w", shape=[w_height, args.vocabulary_size])
     outputs = tf.matmul(final_output, w)
 
     # Train loss
@@ -132,7 +135,6 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                 _, summary, loss_value, train_outputs = sess.run(
                     [train_op, train_summary, loss, outputs], feed_dict=feed(batch))
                 cost += loss_value
-
 
                 # save summary for Tensorboard
                 writer.add_summary(summary)
