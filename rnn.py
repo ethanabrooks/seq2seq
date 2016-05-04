@@ -34,6 +34,7 @@ class Args:
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
         self.multicell = True
+        self.cell_depth = 2
 
     def __str__(self):
         return str(self.__dict__)
@@ -79,13 +80,13 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
 
     # GRU
     cell = tf.nn.rnn_cell.GRUCell(args.num_cells)
-    multicell = rnn_cell.MultiRNNCell([cell] * 2)
+    multicell = rnn_cell.MultiRNNCell([cell] * args.cell_depth)
     if args.multicell:
         cell = multicell
     all_outputs, final_output = tf.nn.rnn(cell, inputs_list, dtype=tf.float32)
 
     # TODO: add matrix mult at the end so that lstm can learn sparse repr
-    w = tf.get_variable("w", shape=[args.num_cells, args.vocabulary_size])
+    w = tf.get_variable("w", shape=[args.num_cells * args.cell_depth, args.vocabulary_size])
     outputs = tf.matmul(final_output, w)
 
     # Train loss
