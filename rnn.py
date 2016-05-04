@@ -35,7 +35,7 @@ class Args:
         self.batch_size = self.num_instances // self.fold
         self.multicell = False
         self.cell_depth = 2
-        self.keep_prob = .8
+        self.keep_prob = .7
 
     def __str__(self):
         return str(self.__dict__)
