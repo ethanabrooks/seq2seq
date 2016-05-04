@@ -33,7 +33,7 @@ class Args:
         self.num_cells = 13
         self.fold = 3
         self.batch_size = self.num_instances // self.fold
-        self.multicell = True
+        self.multicell = False
         self.cell_depth = 2
         self.keep_prob = .8
 
