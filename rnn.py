@@ -123,6 +123,7 @@ with tf.Session() as sess, tf.variable_scope("", initializer=init):
                     [train_op, train_summary, loss, outputs], feed_dict=feed(batch))
                 cost += loss_value
 
+
                 # save summary for Tensorboard
                 writer.add_summary(summary)
 
